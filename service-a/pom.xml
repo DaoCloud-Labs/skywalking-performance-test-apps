@@ -50,6 +50,7 @@
                 <configuration>
                     <repository>wutang/${artifactId}</repository>
                     <tag>${version}</tag>
+                    <dockerConfigFile></dockerConfigFile>
                 </configuration>
             </plugin>
         </plugins>

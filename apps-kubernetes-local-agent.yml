@@ -64,6 +64,8 @@ spec:
               value: "http://eureka-server:8761/eureka"
             - name: SW_AGENT_NAME
               value: "service-a"
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: dev-dmp-sw-performance:11800
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -102,6 +104,8 @@ spec:
               value: "http://eureka-server:8761/eureka"
             - name: SW_AGENT_NAME
               value: "service-b"
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: dev-dmp-sw-performance:11800
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -140,6 +144,8 @@ spec:
               value: "http://eureka-server:8761/eureka"
             - name: SW_AGENT_NAME
               value: "service-c"
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: dev-dmp-sw-performance:11800
 ---
 apiVersion: v1
 kind: Service
