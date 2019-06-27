@@ -2,16 +2,20 @@
 
 ## How-To
 
+## Preconditions
+
+Jdk 11+
+
 ### maven package && docker image build
 ```bash
 mvn package -DskipTests
 ```
 
 ```bash
-cd eureka-server && mvn dockerfile:build
-cd service-a && mvn dockerfile:build
-cd service-b && mvn dockerfile:build
-cd service-c && mvn dockerfile:build
+cd eureka-server && mvn dockerfile:build 
+cd service-a && mvn dockerfile:build && mvn dockerfile:build -Pagent
+cd service-b && mvn dockerfile:build && mvn dockerfile:build -Pagent
+cd service-c && mvn dockerfile:build && mvn dockerfile:build -Pagent
 ```
 
 ### docker run or kubernetes deployment

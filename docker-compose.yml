@@ -7,7 +7,7 @@ services:
     ports:
       - 8761:8761
   service-a:
-    image: wutang/service-a:1.0
+    image: wutang/service-a:2.0
     container_name: service-a
     depends_on:
       - eureka-server
@@ -21,7 +21,7 @@ services:
     ports:
       - 8762:8762
   service-b:
-    image: wutang/service-b:1.0
+    image: wutang/service-b:2.0
     container_name: service-b
     depends_on:
       - eureka-server
@@ -37,7 +37,7 @@ services:
     ports:
       - 8763:8763
   service-c:
-    image: wutang/service-c:1.0
+    image: wutang/service-c:2.0
     container_name: service-c
     depends_on:
       - eureka-server

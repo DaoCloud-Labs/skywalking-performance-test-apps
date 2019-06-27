@@ -17,7 +17,7 @@ spec:
       imagePullSecrets:
         - name: registry-pull
       containers:
-        - image: wutang/eureka-server:1.0
+        - image: wutang/eureka-server:2.0
           name: sw-performance-test-eureka-server
           resources:
             requests:
@@ -48,7 +48,7 @@ spec:
       imagePullSecrets:
         - name: registry-pull
       containers:
-        - image: wutang/service-a:1.0
+        - image: wutang/service-a:2.0
           name: sw-performance-test-service-a
           resources:
             requests:
@@ -86,7 +86,7 @@ spec:
         - name: registry-pull
       imagePullPolicy: Always
       containers:
-        - image: wutang/service-b:1.0
+        - image: wutang/service-b:2.0
           name: sw-performance-test-service-b
           resources:
             requests:
@@ -124,7 +124,7 @@ spec:
         - name: registry-pull
       imagePullPolicy: Always
       containers:
-        - image: wutang/service-c:1.0
+        - image: wutang/service-c:2.0
           name: sw-performance-test-service-c
           resources:
             requests:

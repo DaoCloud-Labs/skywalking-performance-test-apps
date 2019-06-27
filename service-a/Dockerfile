@@ -1,9 +1,9 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:11-jre-stretch
 
 LABEL maintainer="tanjian@apache.org"
 
 ENV TZ=Asia/Shanghai \
-    DIST_NAME=service-a-1.0
+    DIST_NAME=service-a-2.0
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
