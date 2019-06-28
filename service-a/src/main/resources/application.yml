@@ -18,3 +18,8 @@ eureka:
   instance:
     prefer-ip-address: true
 
+ms:
+  collector:
+    client:
+      collect-urls: ${ACC_COLLECTOR_URLS:172.16.60.170:8889}
+

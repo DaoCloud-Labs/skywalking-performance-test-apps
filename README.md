@@ -1,12 +1,22 @@
 # skywalking-performance-test-apps
 
+Skywalking and ACC test apps.
+
 ## How-To
 
 ## Preconditions
 
-Jdk 11+
+- Jdk 11+
+- Docker
+- Docker Compose[Optional]
+- Kubernetes[Optional]
 
 ### maven package && docker image build
+
+### profiles
+
+- `-Pacc`: active collector-client. inactive default.
+
 ```bash
 mvn package -DskipTests
 ```
@@ -21,9 +31,12 @@ cd service-c && mvn dockerfile:build && docker build -t wutang/service-c:2.0-age
 ### docker run or kubernetes deployment
 
 ```bash
-docker-compose up
+docker-compose up # base demo,no acc and agent.
 
-docker-compose -f docker-compose-agent.yml up #agent
+docker-compose -f docker-compose-acc.yml up # acc only.
+
+docker-compose -f docker-compose-agent.yml up #agent only
+
 ```
 
 or

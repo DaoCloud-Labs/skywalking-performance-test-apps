@@ -17,3 +17,9 @@ eureka:
       defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
   instance:
     prefer-ip-address: true
+
+ms:
+  collector:
+    client:
+      collect-urls: ${ACC_COLLECTOR_URLS:172.16.60.170:8889}
+      keep-websocket-conn: false
