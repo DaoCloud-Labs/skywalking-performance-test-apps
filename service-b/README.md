@@ -17,6 +17,10 @@ e.g: `localhost:8763/service-b/users/2`
 ```
 
 ```bash
+docker build -t wutang/service-b:2.0-agent -f Dockerfile-agent .
+```
+
+```bash
 docker run -d -p 8763:8763 -e EUREKA_URL="http://eureka-server:8761/eureka" \
 -e SW_AGENT_NAME=service-b \
 -e SW_AGENT_COLLECTOR_BACKEND_SERVICES=127.0.10.3:11800 wutang/service-b:1.0

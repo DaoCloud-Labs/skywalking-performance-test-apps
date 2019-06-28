@@ -13,15 +13,17 @@ mvn package -DskipTests
 
 ```bash
 cd eureka-server && mvn dockerfile:build 
-cd service-a && mvn dockerfile:build && mvn dockerfile:build -Pagent
-cd service-b && mvn dockerfile:build && mvn dockerfile:build -Pagent
-cd service-c && mvn dockerfile:build && mvn dockerfile:build -Pagent
+cd service-a && mvn dockerfile:build && docker build -t wutang/service-a:2.0-agent -f Dockerfile-agent .
+cd service-b && mvn dockerfile:build && docker build -t wutang/service-b:2.0-agent -f Dockerfile-agent .
+cd service-c && mvn dockerfile:build && docker build -t wutang/service-c:2.0-agent -f Dockerfile-agent .
 ```
 
 ### docker run or kubernetes deployment
 
 ```bash
 docker-compose up
+
+docker-compose -f docker-compose-agent.yml up #agent
 ```
 
 or

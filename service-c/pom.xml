@@ -34,32 +34,11 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>agent</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.spotify</groupId>
-                        <artifactId>dockerfile-maven-plugin</artifactId>
-                        <version>1.4.8</version>
-                        <configuration>
-                            <buildDirectory>docker-agent</buildDirectory>
-                            <repository>wutang/${artifactId}</repository>
-                            <tag>${version}-agent</tag>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.4.8</version>
                 <configuration>
                     <repository>wutang/${artifactId}</repository>
                     <tag>${version}</tag>
