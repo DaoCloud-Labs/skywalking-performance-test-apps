@@ -7,7 +7,7 @@ spring:
     show-sql: true
 logging:
   level:
-    root: INFO
+    root: debug
     org.hibernate: INFO
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
@@ -17,3 +17,4 @@ eureka:
       defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
   instance:
     prefer-ip-address: true
+
