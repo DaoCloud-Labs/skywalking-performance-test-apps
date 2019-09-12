@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-stretch
+FROM openjdk:8-jre
 
 LABEL maintainer="tanjian@apache.org"
 

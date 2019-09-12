@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: dmp
+  namespace: dmp-dev
   name: sw-performance-test-eureka-server
   labels:
     app: sw-performance-test-eureka-server
@@ -17,7 +17,7 @@ spec:
       imagePullSecrets:
         - name: registry-pull
       containers:
-        - image: {{ sw-performance-test-eureka-server.image }}
+        - image: wutang/eureka-server:2.0
           name: sw-performance-test-eureka-server
           resources:
             requests:
@@ -32,7 +32,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: dmp
+  namespace: dmp-dev
   name: sw-performance-test-service-a
   labels:
     app: sw-performance-test-service-a
@@ -45,10 +45,18 @@ spec:
       labels:
         app: sw-performance-test-service-a
     spec:
+      initContainers:
+        - name: sidecar
+          image: registry.dx.io/daocloud-dmp/skywalking-agent-sidecar:develop-094cd0f # 容器镜像，包含静态资源文件
+          imagePullPolicy: IfNotPresent
+          command: ["cp", "-r", "/skywalking", "/sidecar"]
+          volumeMounts:
+            - name: sidecar
+              mountPath: /sidecar
       imagePullSecrets:
         - name: registry-pull
       containers:
-        - image: {{ sw-performance-test-service-a.image }}
+        - image: wutang/service-a:2.0
           name: sw-performance-test-service-a
           resources:
             requests:
@@ -60,18 +68,32 @@ spec:
           ports:
             - containerPort: 8762
           env:
+            - name: JAVA_OPTS
+              value: "-javaagent:/sidecar/skywalking/agent/skywalking-agent.jar"
             - name: EUREKA_URL
-              value: "http://eureka-server:8761/eureka"
-            - name: SW_AGENT_NAME
+              value: "http://sw-performance-test-eureka-server:8761/eureka"
+            - name: AGENT_NAME
               value: "service-a"
-            - name: EUREKA_URL
+            - name: DMP_ENV_CODE
+              value: "dx-test"
+            - name: DX_APPLICATION_NAME
+              value: "my-app"
+            - name: DX_APPLICATION_ID
+              value: "ggege-fgw4t2-g224t4-g24oj"
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
-              value: dev-dmp-sw-performance:11800
+              value: 10.17.11.170:11800
+          volumeMounts:
+            - name: sidecar
+              mountPath: /sidecar
+      volumes:
+        - name: sidecar  #共享agent文件夹
+          emptyDir: {}
+
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: dmp
+  namespace: dmp-dev
   name: sw-performance-test-service-b
   labels:
     app: sw-performance-test-service-b
@@ -85,12 +107,19 @@ spec:
       labels:
         app: sw-performance-test-service-b
     spec:
+      initContainers:
+        - name: sidecar
+          image: registry.dx.io/daocloud-dmp/skywalking-agent-sidecar:develop-094cd0f # 容器镜像，包含静态资源文件
+          imagePullPolicy: IfNotPresent
+          command: ["cp", "-r", "/skywalking", "/sidecar"]
+          volumeMounts:
+            - name: sidecar
+              mountPath: /sidecar
       imagePullSecrets:
         - name: registry-pull
-      imagePullPolicy: Always
       containers:
-        - image: {{ sw-performance-test-service-b.image }}
-          name: sw-performance-test-service-a
+        - image: wutang/service-b:2.0
+          name: sw-performance-test-service-b
           resources:
             requests:
               memory: "4096Mi"
@@ -101,18 +130,32 @@ spec:
           ports:
             - containerPort: 8763
           env:
+            - name: JAVA_OPTS
+              value: "-javaagent:/sidecar/skywalking/agent/skywalking-agent.jar"
             - name: EUREKA_URL
-              value: "http://eureka-server:8761/eureka"
-            - name: SW_AGENT_NAME
+              value: "http://sw-performance-test-eureka-server:8761/eureka"
+            - name: AGENT_NAME
               value: "service-b"
-            - name: EUREKA_URL
+            - name: DMP_ENV_CODE
+              value: "dx-test"
+            - name: DX_APPLICATION_NAME
+              value: "my-app"
+            - name: DX_APPLICATION_ID
+              value: "ggege-fgw4t2-g224t4-g24oj"
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
-              value: dev-dmp-sw-performance:11800
+              value: 10.17.11.170:11800
+          volumeMounts:
+            - name: sidecar
+              mountPath: /sidecar
+      volumes:
+        - name: sidecar  #共享agent文件夹
+          emptyDir: {}
+      restartPolicy: Always
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: dmp
+  namespace: dmp-dev
   name: sw-performance-test-service-c
   labels:
     app: sw-performance-test-service-c
@@ -126,11 +169,18 @@ spec:
       labels:
         app: sw-performance-test-service-c
     spec:
+      initContainers:
+        - name: sidecar
+          image: registry.dx.io/daocloud-dmp/skywalking-agent-sidecar:develop-094cd0f # 容器镜像，包含静态资源文件
+          imagePullPolicy: IfNotPresent
+          command: ["cp", "-r", "/skywalking", "/sidecar"]
+          volumeMounts:
+            - name: sidecar
+              mountPath: /sidecar
       imagePullSecrets:
         - name: registry-pull
-      imagePullPolicy: Always
       containers:
-        - image: {{ sw-performance-test-service-c.image }}
+        - image: wutang/service-c:2.0
           name: sw-performance-test-service-c
           resources:
             requests:
@@ -142,13 +192,28 @@ spec:
           ports:
             - containerPort: 8764
           env:
+            - name: JAVA_OPTS
+              value: "-javaagent:/sidecar/skywalking/agent/skywalking-agent.jar"
             - name: EUREKA_URL
-              value: "http://eureka-server:8761/eureka"
-            - name: SW_AGENT_NAME
+              value: "http://sw-performance-test-eureka-server:8761/eureka"
+            - name: AGENT_NAME
               value: "service-c"
-            - name: EUREKA_URL
+            - name: DMP_ENV_CODE
+              value: "dx-test"
+            - name: DX_APPLICATION_NAME
+              value: "my-app"
+            - name: DX_APPLICATION_ID
+              value: "ggege-fgw4t2-g224t4-g24oj"
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
-              value: dev-dmp-sw-performance:11800
+              value: 10.17.11.170:11800
+          volumeMounts:
+            - name: sidecar
+              mountPath: /sidecar
+      volumes:
+        - name: sidecar  #共享agent文件夹
+          emptyDir: {}
+      restartPolicy: Always
+
 ---
 apiVersion: v1
 kind: Service
@@ -193,3 +258,4 @@ spec:
     - port: 8764
   selector:
     app: sw-performance-test-service-c
+
